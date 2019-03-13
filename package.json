@@ -1,0 +1,33 @@
+{
+  "name": "rib-client",
+  "version": "1.0.0",
+  "description": "Client to access Rib backend",
+  "main": "lib/RibClient.js",
+  "types": "lib/RibClient.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheCollinCashio/Rib-Client.git"
+  },
+  "keywords": [
+    "frontend",
+    "realtime",
+    "backend",
+    "executions",
+    "js"
+  ],
+  "author": "Collin Cashio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheCollinCashio/Rib-Client/issues"
+  },
+  "homepage": "https://github.com/TheCollinCashio/Rib-Client#readme",
+  "dependencies": {
+    "socket.io-client": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/socket.io-client": "^1.4.32"
+  }
+}
