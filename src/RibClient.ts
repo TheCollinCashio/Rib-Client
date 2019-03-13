@@ -4,6 +4,7 @@ let instance = null
 export default class RibClient {
     private socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
+    private isConnected = false
 
     constructor(urlNamespace?: string, isSingleton = true) {
         let returnInstance = this
@@ -23,11 +24,17 @@ export default class RibClient {
 
     onConnect(cb: Function) {
         this.socket.on('RibSendKeysToClient', (keys: string[]) => {
-            this.setUpFunctions(keys)
-            this.setUpSocketFunctions()
-            let clientKeys = [...this.functionMap.keys()]
-            this.socket.emit('RibSendKeysToServer', clientKeys)
-            cb()
+            this.setEmitFunctions(keys)
+
+            if (!this.isConnected) {
+                this.setUpOnFunctions()
+                this.isConnected = true
+                cb()
+            }
+        })
+
+        this.socket.on('disconnect', () => {
+            this.isConnected = false
         })
     }
 
@@ -37,6 +44,10 @@ export default class RibClient {
             throw new Error(`${funcName} already exists. The function names need to be unique`)
         } else {
             this.functionMap.set(funcName, func)
+        }
+
+        if (this.isConnected) {
+            this.setOnFunction(func)
         }
     }
 
@@ -49,6 +60,7 @@ export default class RibClient {
     concealFunction(func: Function) {
         let funcName = func.name
         this.functionMap.delete(funcName)
+        this.socket.off(funcName)
     }
 
     concealFunctions(funcs: Function[]) {
@@ -57,19 +69,27 @@ export default class RibClient {
         }
     }
 
-    private setUpSocketFunctions() {
-        this.functionMap.forEach((fn, event) => {
-            this.socket.on(event, (...args) => {
-                fn(...args)
-            })
+    private setOnFunction(fn: Function) {
+        this.socket.on(fn.name, (...args) => {
+            fn(...args)
         })
     }
 
-    private setUpFunctions(keys: string[]) {
+    private setUpOnFunctions() {
+        this.functionMap.forEach((fn) => {
+            this.setOnFunction(fn)
+        })
+    }
+
+    private setEmitFunction(key: string) {
+        this[key] = (...args) => {
+            this.socket.emit(key, ...args)
+        }
+    }
+
+    private setEmitFunctions(keys: string[]) {
         for (let key of keys) {
-            this[key] = (...args) => {
-                this.socket.emit(key, ...args)
-            }
+            this.setEmitFunction(key)
         }
     }
 }
