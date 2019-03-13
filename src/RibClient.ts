@@ -28,6 +28,7 @@ export default class RibClient {
 
             if (!this.isConnected) {
                 this.setUpOnFunctions()
+                this.socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
                 this.isConnected = true
                 cb()
             }
@@ -38,16 +39,17 @@ export default class RibClient {
         })
     }
 
-    exposeFunction(func: Function) {
-        let funcName = func.name
-        if (this.functionMap.get(funcName)) {
-            throw new Error(`${funcName} already exists. The function names need to be unique`)
+    exposeFunction(fn: Function) {
+        let fnName = fn.name
+        if (this.functionMap.get(fnName)) {
+            throw new Error(`${fnName} already exists. The function names need to be unique`)
         } else {
-            this.functionMap.set(funcName, func)
+            this.functionMap.set(fnName, fn)
         }
 
         if (this.isConnected) {
-            this.setOnFunction(func)
+            this.setOnFunction(fn, fnName)
+            this.socket.emit('RibSendKeysToServer', [fnName])
         }
     }
 
@@ -69,15 +71,15 @@ export default class RibClient {
         }
     }
 
-    private setOnFunction(fn: Function) {
-        this.socket.on(fn.name, (...args) => {
+    private setOnFunction(fn: Function, fnName: string) {
+        this.socket.on(fnName, (...args) => {
             fn(...args)
         })
     }
 
     private setUpOnFunctions() {
-        this.functionMap.forEach((fn) => {
-            this.setOnFunction(fn)
+        this.functionMap.forEach((fn, fnName) => {
+            this.setOnFunction(fn, fnName)
         })
     }
 

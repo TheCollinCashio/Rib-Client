@@ -4,7 +4,7 @@ export default class RibClient {
     private isConnected;
     constructor(urlNamespace?: string, isSingleton?: boolean);
     onConnect(cb: Function): void;
-    exposeFunction(func: Function): void;
+    exposeFunction(fn: Function): void;
     exposeFunctions(funcs: Function[]): void;
     concealFunction(func: Function): void;
     concealFunctions(funcs: Function[]): void;
