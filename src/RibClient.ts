@@ -6,6 +6,11 @@ export default class RibClient {
     private functionMap = new Map<string, Function>()
     private isConnected = false
 
+    /**
+        * Create an instance of RibClient
+        * @param nameSpace
+        * @param isSingleton
+    **/
     constructor(urlNamespace?: string, isSingleton = true) {
         let returnInstance = this
 
@@ -22,6 +27,10 @@ export default class RibClient {
         return returnInstance
     }
 
+    /**
+        * Called after rib client instance connects to rib server
+        * @callback
+    **/
     onConnect(cb: Function) {
         this.socket.on('RibSendKeysToClient', (keys: string[]) => {
             this.setEmitFunctions(keys)
@@ -39,6 +48,10 @@ export default class RibClient {
         })
     }
 
+    /**
+        * Expose a client side function that can be called with a rib server instance
+        * @param fn
+    **/
     exposeFunction(fn: Function) {
         let fnName = fn.name
         if (this.functionMap.get(fnName)) {
@@ -53,21 +66,33 @@ export default class RibClient {
         }
     }
 
-    exposeFunctions(funcs: Function[]) {
-        for (let func of funcs) {
-            this.exposeFunction(func)
+    /**
+        * Expose an array of client side functions that can be called with a rib server instance
+        * @param fn
+    **/
+    exposeFunctions(fns: Function[]) {
+        for (let fn of fns) {
+            this.exposeFunction(fn)
         }
     }
 
-    concealFunction(func: Function) {
-        let funcName = func.name
-        this.functionMap.delete(funcName)
-        this.socket.off(funcName)
+    /**
+        * Conceal a client side function where it can no longer be accessed from the server
+        * @param fn
+    **/
+    concealFunction(fn: Function) {
+        let fnName = fn.name
+        this.functionMap.delete(fnName)
+        this.socket.off(fnName)
     }
 
-    concealFunctions(funcs: Function[]) {
-        for (let func of funcs) {
-            this.concealFunction(func)
+    /**
+        * Conceal client side functions where they can no longer be accessed from the server
+        * @param fn
+    **/
+    concealFunctions(fns: Function[]) {
+        for (let fn of fns) {
+            this.concealFunction(fn)
         }
     }
 
