@@ -1,7 +1,7 @@
 {
   "name": "rib-client",
   "version": "1.0.2",
-  "description": "Client to access Rib frameword",
+  "description": "Client library to access the rib-server framework",
   "main": "lib/RibClient.js",
   "types": "lib/RibClient.d.ts",
   "files": [
@@ -19,6 +19,8 @@
     "realtime",
     "backend",
     "executions",
+    "framework",
+    "live",
     "js"
   ],
   "author": "Collin Cashio",

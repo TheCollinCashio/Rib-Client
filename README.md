@@ -1,4 +1,4 @@
 # Rib-Client
-Client to access Rib backend framework
+Rib-Client is a client library to access the Rib backend framework
 
-For documentation, please visit the official [github](https://github.com/TheCollinCashio/Rib).
+For the official documentation, please click [here](https://github.com/TheCollinCashio/Rib).
