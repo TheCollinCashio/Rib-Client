@@ -2,7 +2,7 @@ import * as io from 'socket.io-client'
 let instance = null
 
 export default class RibClient {
-    private socket: SocketIOClient.Socket
+    public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private isConnected = false
 
