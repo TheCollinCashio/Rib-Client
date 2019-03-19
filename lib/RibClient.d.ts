@@ -1,5 +1,6 @@
+/// <reference types="socket.io-client" />
 export default class RibClient {
-    private socket;
+    _socket: SocketIOClient.Socket;
     private functionMap;
     private isConnected;
     /**
