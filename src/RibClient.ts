@@ -17,7 +17,7 @@ export default class RibClient {
         if (isSingleton && instance) {
             returnInstance = instance
         } else {
-            this.socket = urlNamespace ? io(urlNamespace) : io('/')
+            this._socket = urlNamespace ? io(urlNamespace) : io('/')
         }
 
         if (isSingleton && !instance) {
@@ -32,18 +32,18 @@ export default class RibClient {
         * @callback
     **/
     onConnect(cb: Function) {
-        this.socket.on('RibSendKeysToClient', (keys: string[]) => {
+        this._socket.on('RibSendKeysToClient', (keys: string[]) => {
             this.setEmitFunctions(keys)
 
             if (!this.isConnected) {
                 this.setUpOnFunctions()
-                this.socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
+                this._socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
                 this.isConnected = true
                 cb()
             }
         })
 
-        this.socket.on('disconnect', () => {
+        this._socket.on('disconnect', () => {
             this.isConnected = false
         })
     }
@@ -62,7 +62,7 @@ export default class RibClient {
 
         if (this.isConnected) {
             this.setOnFunction(fn, fnName)
-            this.socket.emit('RibSendKeysToServer', [fnName])
+            this._socket.emit('RibSendKeysToServer', [fnName])
         }
     }
 
@@ -83,7 +83,7 @@ export default class RibClient {
     concealFunction(fn: Function) {
         let fnName = fn.name
         this.functionMap.delete(fnName)
-        this.socket.off(fnName)
+        this._socket.off(fnName)
     }
 
     /**
@@ -97,7 +97,7 @@ export default class RibClient {
     }
 
     private setOnFunction(fn: Function, fnName: string) {
-        this.socket.on(fnName, (...args) => {
+        this._socket.on(fnName, (...args) => {
             fn(...args)
         })
     }
@@ -110,7 +110,7 @@ export default class RibClient {
 
     private setEmitFunction(key: string) {
         this[key] = (...args) => {
-            this.socket.emit(key, ...args)
+            this._socket.emit(key, ...args)
         }
     }
 
