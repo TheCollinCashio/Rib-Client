@@ -3,6 +3,7 @@ export default class RibClient {
     _socket: SocketIOClient.Socket;
     private functionMap;
     private isConnected;
+    private disconnFunction;
     /**
         * Create an instance of RibClient
         * @param nameSpace
@@ -14,6 +15,11 @@ export default class RibClient {
         * @callback
     **/
     onConnect(cb: Function): void;
+    /**
+        * Called after rib client instance disconnects from the rib server
+        * @callback
+    **/
+    onDisconnect(cb: Function): void;
     /**
         * Expose a client side function that can be called with a rib server instance
         * @param fn

@@ -5,6 +5,7 @@ export default class RibClient {
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private isConnected = false
+    private disconnFunction : Function
 
     /**
         * Create an instance of RibClient
@@ -44,8 +45,17 @@ export default class RibClient {
         })
 
         this._socket.on('disconnect', () => {
+            this.disconnFunction && this.disconnFunction()
             this.isConnected = false
         })
+    }
+
+    /**
+        * Called after rib client instance disconnects from the rib server
+        * @callback
+    **/
+    onDisconnect(cb: Function) {
+        this.disconnFunction = cb
     }
 
     /**
@@ -109,8 +119,12 @@ export default class RibClient {
     }
 
     private setEmitFunction(key: string) {
-        this[key] = (...args) => {
-            this._socket.emit(key, ...args)
+        if (this[key]) {
+            console.error(`${key} is a taken key and can't be overwritten`)
+        } else {
+            this[key] = (...args) => {
+                this._socket.emit(key, ...args)
+            }
         }
     }
 
