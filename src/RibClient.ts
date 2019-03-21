@@ -119,9 +119,7 @@ export default class RibClient {
     }
 
     private setEmitFunction(key: string) {
-        if (this[key]) {
-            console.error(`${key} is a taken key and can't be overwritten`)
-        } else {
+        if (!this[key]) {
             this[key] = (...args) => {
                 this._socket.emit(key, ...args)
             }
