@@ -4,7 +4,7 @@ let instance = null
 export default class RibClient {
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
-    private isConnected = false
+    private didConnect = false
     private disconnFunction : Function
 
     /**
@@ -36,17 +36,16 @@ export default class RibClient {
         this._socket.on('RibSendKeysToClient', (keys: string[]) => {
             this.setEmitFunctions(keys)
 
-            if (!this.isConnected) {
+            if (!this.didConnect) {
                 this.setUpOnFunctions()
                 this._socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
-                this.isConnected = true
+                this.didConnect = true
                 cb()
             }
         })
 
         this._socket.on('disconnect', () => {
             this.disconnFunction && this.disconnFunction()
-            this.isConnected = false
         })
     }
 
@@ -70,7 +69,7 @@ export default class RibClient {
             this.functionMap.set(fnName, fn)
         }
 
-        if (this.isConnected) {
+        if (this.didConnect) {
             this.setOnFunction(fn, fnName)
             this._socket.emit('RibSendKeysToServer', [fnName])
         }

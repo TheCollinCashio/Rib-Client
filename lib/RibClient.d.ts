@@ -2,7 +2,7 @@
 export default class RibClient {
     _socket: SocketIOClient.Socket;
     private functionMap;
-    private isConnected;
+    private didConnect;
     private disconnFunction;
     /**
         * Create an instance of RibClient
