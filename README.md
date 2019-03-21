@@ -29,15 +29,25 @@ myRib.exposeFunctions([sendMSG])   //  allows us to call sendMSG from the server
 ```
 
 **onConnect: Function**
+
 Call a function after client connects to the server
 
 **onDisconnect: Function**
+
 Call a function when a client disconnects from the server
 
-**exposeFunction: Function** Expose a client side function that can be called from the rib server instance
+**exposeFunction: Function** 
 
-**exposeFunctions: Function** Expose an array of client side functions that can be called with a rib server instance
+Expose a client side function that can be called from the rib server instance
 
-**concealFunction: Function** Conceal a client side function where it can no longer be accessed from the server
+**exposeFunctions: Function** 
 
-**concealFunctions: Function** Conceal client side functions where they can no longer be accessed from the server
+Expose an array of client side functions that can be called with a rib server instance
+
+**concealFunction: Function** 
+
+Conceal a client side function where it can no longer be accessed from the server
+
+**concealFunctions: Function** 
+
+Conceal client side functions where they can no longer be accessed from the server
