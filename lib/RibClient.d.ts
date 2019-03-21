@@ -7,7 +7,7 @@ export default class RibClient {
     private disconnFunction;
     /**
         * Create an instance of RibClient
-        * @param nameSpace
+        * @param urlNameSpace
         * @param isSingleton
     **/
     constructor(urlNamespace?: string, isSingleton?: boolean);
@@ -22,13 +22,13 @@ export default class RibClient {
     **/
     onDisconnect(cb: Function): void;
     /**
-        * Expose a client side function that can be called with a rib server instance
+        * Expose a client side function that can be called from the rib server instance
         * @param fn
     **/
     exposeFunction(fn: Function): void;
     /**
-        * Expose an array of client side functions that can be called with a rib server instance
-        * @param fn
+        * Expose an array of client side functions that can be called from the rib server instance
+        * @param fns
     **/
     exposeFunctions(fns: Function[]): void;
     /**
@@ -38,7 +38,7 @@ export default class RibClient {
     concealFunction(fn: Function): void;
     /**
         * Conceal client side functions where they can no longer be accessed from the server
-        * @param fn
+        * @param fns
     **/
     concealFunctions(fns: Function[]): void;
     private setOnFunction;

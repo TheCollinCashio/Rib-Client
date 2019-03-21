@@ -10,7 +10,7 @@ export default class RibClient {
 
     /**
         * Create an instance of RibClient
-        * @param nameSpace
+        * @param urlNameSpace
         * @param isSingleton
     **/
     constructor(urlNamespace?: string, isSingleton = true) {
@@ -63,7 +63,7 @@ export default class RibClient {
     }
 
     /**
-        * Expose a client side function that can be called with a rib server instance
+        * Expose a client side function that can be called from the rib server instance
         * @param fn
     **/
     exposeFunction(fn: Function) {
@@ -81,8 +81,8 @@ export default class RibClient {
     }
 
     /**
-        * Expose an array of client side functions that can be called with a rib server instance
-        * @param fn
+        * Expose an array of client side functions that can be called from the rib server instance
+        * @param fns
     **/
     exposeFunctions(fns: Function[]) {
         for (let fn of fns) {
@@ -102,7 +102,7 @@ export default class RibClient {
 
     /**
         * Conceal client side functions where they can no longer be accessed from the server
-        * @param fn
+        * @param fns
     **/
     concealFunctions(fns: Function[]) {
         for (let fn of fns) {
