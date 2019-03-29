@@ -2,8 +2,13 @@ let RibClient = require('../lib/RibClient').default
 let PORT = process.argv[2] || 5000
 let myRib = new RibClient(`http://localhost:${PORT}/`)
 
-myRib.onConnect(() => {
-    myRib.logMessage('Runs the logMessage function server side 👨🏻‍💻')
+myRib.onConnect(async () => {
+    myRib.logMessage('Runs the logMessage function server side 👨🏻‍💻', () => {}).then(() => {
+        setTimeout(async () => {
+            console.log('now lets add the things')
+            console.log(await myRib.waitAndAdd(1, 2))
+        })
+    })
 })
 
 myRib.onDisconnect(() => {

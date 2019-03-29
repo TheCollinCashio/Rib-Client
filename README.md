@@ -8,8 +8,9 @@ For the official github, please click [here](https://github.com/TheCollinCashio/
 let RibClient = require('rib-client').default // or import using a CDN
 let myRib = new RibClient('http://localhost:5000/')
 
-myRib.onConnect(() => {
+myRib.onConnect(async () => {
     myRib.logMessage('Runs the logMessage function server side 👨🏻‍💻')
+    console.log(await myRib.add(1, 2))
 })
 
 function sendMSG(msg) {
