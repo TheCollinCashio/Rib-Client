@@ -4,8 +4,7 @@ let myRib = new RibClient(`http://localhost:${PORT}/`)
 
 myRib.onConnect(async () => {
     myRib.logMessage('Runs the logMessage function server side 👨🏻‍💻')
-    console.log('now lets add the things')
-    console.log(await myRib.waitAndAdd(1, 2))
+    console.log(await myRib.add(1, 2))
 })
 
 myRib.onDisconnect(() => {
