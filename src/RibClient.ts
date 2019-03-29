@@ -125,7 +125,13 @@ export default class RibClient {
     private setEmitFunction(key: string) {
         if (!this[key]) {
             this[key] = (...args) => {
-                this._socket.emit(key, ...args)
+                return new Promise((resolve, reject) => {
+                    try {
+                        this._socket.emit(key, ...args, resolve)
+                    } catch(ex) {
+                        reject(ex)
+                    }
+                })
             }
         }
     }
