@@ -6,7 +6,8 @@ export default class RibClient {
     private functionMap = new Map<string, Function>()
     private isConnected = false
     private hasConnected = false
-    private disconnFunction : Function
+    private onConnectFunction: Function
+    private disconnFunction: Function
 
     /**
         * Create an instance of RibClient
@@ -20,12 +21,13 @@ export default class RibClient {
             returnInstance = instance
         } else {
             this._socket = urlNamespace ? io(urlNamespace) : io('/')
+            this.setUpDefaultOnFunctions()
         }
 
         if (isSingleton && !instance) {
             instance = this
         }
-        
+
         return returnInstance
     }
 
@@ -34,24 +36,7 @@ export default class RibClient {
         * @callback
     **/
     onConnect(cb: Function) {
-        this._socket.on('RibSendKeysToClient', (keys: string[]) => {
-            this.setEmitFunctions(keys)
-
-            if (!this.isConnected) {
-                if (!this.hasConnected) {
-                    this.setUpOnFunctions()
-                    this.hasConnected = true
-                }
-                this._socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
-                this.isConnected = true
-                cb()
-            }
-        })
-
-        this._socket.on('disconnect', () => {
-            this.disconnFunction && this.disconnFunction()
-            this.isConnected = false
-        })
+        this.onConnectFunction = cb
     }
 
     /**
@@ -110,6 +95,27 @@ export default class RibClient {
         }
     }
 
+    private setUpDefaultOnFunctions() {
+        this._socket.on('RibSendKeysToClient', (keys: string[]) => {
+            this.setEmitFunctions(keys)
+
+            if (!this.isConnected) {
+                if (!this.hasConnected) {
+                    this.setUpOnFunctions()
+                    this.hasConnected = true
+                }
+                this._socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
+                this.isConnected = true
+                typeof this.onConnectFunction === 'function' && this.onConnectFunction()
+            }
+        })
+
+        this._socket.on('disconnect', () => {
+            this.disconnFunction && this.disconnFunction()
+            this.isConnected = false
+        })
+    }
+
     private setOnFunction(fn: Function, fnName: string) {
         this._socket.on(fnName, (...args) => {
             fn(...args)
@@ -128,7 +134,7 @@ export default class RibClient {
                 return new Promise((resolve, reject) => {
                     try {
                         this._socket.emit(key, ...args, resolve)
-                    } catch(ex) {
+                    } catch (ex) {
                         reject(ex)
                     }
                 })
