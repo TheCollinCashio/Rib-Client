@@ -1,9 +1,8 @@
-const webpack = require('webpack')
 const path = require('path')
 
 module.exports = {
     mode: 'none',
-    entry: ['@babel/polyfill', './src/CDN.js'],
+    entry: ['@babel/polyfill', './src/cdn.js'],
     module: {
         rules: [
             {
