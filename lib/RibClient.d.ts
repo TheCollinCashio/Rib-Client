@@ -4,6 +4,7 @@ export default class RibClient {
     private functionMap;
     private isConnected;
     private hasConnected;
+    private onConnectFunction;
     private disconnFunction;
     /**
         * Create an instance of RibClient
@@ -41,6 +42,7 @@ export default class RibClient {
         * @param fns
     **/
     concealFunctions(fns: Function[]): void;
+    private setUpDefaultOnFunctions;
     private setOnFunction;
     private setUpOnFunctions;
     private setEmitFunction;

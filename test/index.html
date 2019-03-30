@@ -1,0 +1,23 @@
+<html>
+    <script src="../lib/CDN.js"></script>
+    <script>
+        let myRib = new RibClient('http://localhost:5000/')
+
+        myRib.onConnect(async () => {
+            myRib.logMessage('Runs the logMessage function server side 👨🏻‍💻')
+            console.log(await myRib.add(1, 2))
+        })
+
+        myRib.onDisconnect(() => {
+            console.log('We got disconnected from the Server 🙁')
+        })
+
+        function sendMSG(msg) {
+            console.log(msg)
+        }
+
+        myRib.exposeFunctions([sendMSG])   //  allows us to call sendMSG from the server
+
+        console.log('Working on the things')
+    </script>
+</html>

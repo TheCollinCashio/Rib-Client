@@ -8,8 +8,9 @@
     "lib/*"
   ],
   "scripts": {
-    "pub": "tsc; npm publish",
-    "test": "tsc; node test/index.js"
+    "pub": "tsc; webpack; npm publish",
+    "test": "tsc; node test/index.js",
+    "testHtml": "tsc; webpack;"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,11 @@
     "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "@types/socket.io-client": "^1.4.32"
+    "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
+    "@types/socket.io-client": "^1.4.32",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }

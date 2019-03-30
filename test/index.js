@@ -16,3 +16,5 @@ function sendMSG(msg) {
 }
 
 myRib.exposeFunctions([sendMSG])   //  allows us to call sendMSG from the server
+
+console.log('Working on the things')
