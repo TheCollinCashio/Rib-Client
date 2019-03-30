@@ -5,7 +5,7 @@ For the official github, please click [here](https://github.com/TheCollinCashio/
 
 ## Example
 ```js
-let RibClient = require('rib-client').default // or import using a CDN
+let RibClient = require('rib-client').default // or import using the CDN https://unpkg.com/rib-client@[VERSION#]/lib/cdn.js
 let myRib = new RibClient('http://localhost:5000/')
 
 myRib.onConnect(async () => {
