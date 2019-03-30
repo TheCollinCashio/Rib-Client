@@ -1,3 +1,3 @@
-const RibClient = require('../lib/RibClient').default
+const RibClient = require("../lib/RibClient").default
 
 module.exports = RibClient

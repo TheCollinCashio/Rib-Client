@@ -1,22 +1,22 @@
-const path = require('path')
+const path = require("path")
 
 module.exports = {
-    mode: 'none',
-    entry: ['@babel/polyfill', './src/cdn.js'],
+    mode: "none",
+    entry: ["@babel/polyfill", "./src/cdn.js"],
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: ["babel-loader"]
             }
         ]
     },
     output: {
         path: path.resolve(`${__dirname}/lib/`),
-        filename: 'cdn.js',
-        libraryTarget: 'var',
-        library: 'RibClient'
+        filename: "cdn.js",
+        libraryTarget: "var",
+        library: "RibClient"
     },
     optimization: {
         minimize: true

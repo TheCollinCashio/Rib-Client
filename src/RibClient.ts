@@ -1,4 +1,4 @@
-import * as io from 'socket.io-client'
+import * as io from "socket.io-client"
 let instance = null
 
 export default class RibClient {
@@ -20,7 +20,7 @@ export default class RibClient {
         if (isSingleton && instance) {
             returnInstance = instance
         } else {
-            this._socket = urlNamespace ? io(urlNamespace) : io('/')
+            this._socket = urlNamespace ? io(urlNamespace) : io("/")
             this.setUpDefaultOnFunctions()
         }
 
@@ -61,7 +61,7 @@ export default class RibClient {
 
         if (this.isConnected) {
             this.setOnFunction(fn, fnName)
-            this._socket.emit('RibSendKeysToServer', [fnName])
+            this._socket.emit("RibSendKeysToServer", [fnName])
         }
     }
 
@@ -96,7 +96,7 @@ export default class RibClient {
     }
 
     private setUpDefaultOnFunctions() {
-        this._socket.on('RibSendKeysToClient', (keys: string[]) => {
+        this._socket.on("RibSendKeysToClient", (keys: string[]) => {
             this.setEmitFunctions(keys)
 
             if (!this.isConnected) {
@@ -104,13 +104,13 @@ export default class RibClient {
                     this.setUpOnFunctions()
                     this.hasConnected = true
                 }
-                this._socket.emit('RibSendKeysToServer', [...this.functionMap.keys()])
+                this._socket.emit("RibSendKeysToServer", [...this.functionMap.keys()])
                 this.isConnected = true
-                typeof this.onConnectFunction === 'function' && this.onConnectFunction()
+                typeof this.onConnectFunction === "function" && this.onConnectFunction()
             }
         })
 
-        this._socket.on('disconnect', () => {
+        this._socket.on("disconnect", () => {
             this.disconnFunction && this.disconnFunction()
             this.isConnected = false
         })
