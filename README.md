@@ -52,3 +52,7 @@ Conceal a client side function where it can no longer be accessed from the serve
 **concealFunctions: Function** 
 
 Conceal client side functions where they can no longer be accessed from the server
+
+**concealFunctionsByKey: Function**
+
+Conceal client side functions by key to which they were exposed where they can no longer be accessed from the server

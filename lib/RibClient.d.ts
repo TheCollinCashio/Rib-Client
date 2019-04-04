@@ -2,6 +2,7 @@
 export default class RibClient {
     _socket: SocketIOClient.Socket;
     private functionMap;
+    private functionNamesMapKey;
     private isConnected;
     private hasConnected;
     private onConnectFunction;
@@ -25,13 +26,25 @@ export default class RibClient {
     /**
         * Expose a client side function that can be called from the rib server instance
         * @param fn
+        * @param key
     **/
-    exposeFunction(fn: Function): void;
+    exposeFunction(fn: Function, key?: string): void;
     /**
         * Expose an array of client side functions that can be called from the rib server instance
         * @param fns
+        * @param key
     **/
-    exposeFunctions(fns: Function[]): void;
+    exposeFunctions(fns: Function[], key?: string): void;
+    /**
+        * Conceal a client side function where it can no longer be accessed from the server
+        * @param fnName
+    **/
+    concealFunctionByName(fnName: string): void;
+    /**
+        * Conceal a client side function where it can no longer be accessed from the server
+        * @param fnNames
+    **/
+    concealFunctionsByNames(fnNames: string[]): void;
     /**
         * Conceal a client side function where it can no longer be accessed from the server
         * @param fn
@@ -42,6 +55,11 @@ export default class RibClient {
         * @param fns
     **/
     concealFunctions(fns: Function[]): void;
+    /**
+        * Conceal client side functions by key to which they were exposed where they can no longer be accessed from the server
+        * @param key
+    **/
+    concealFunctionsByKey(key: string): void;
     private setUpDefaultOnFunctions;
     private setOnFunction;
     private setUpOnFunctions;

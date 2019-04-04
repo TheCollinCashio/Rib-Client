@@ -4,6 +4,7 @@ let instance = null
 export default class RibClient {
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
+    private functionNamesMapKey = new Map<string, string[]>()
     private isConnected = false
     private hasConnected = false
     private onConnectFunction: Function
@@ -50,11 +51,20 @@ export default class RibClient {
     /**
         * Expose a client side function that can be called from the rib server instance
         * @param fn
+        * @param key
     **/
-    exposeFunction(fn: Function) {
+    exposeFunction(fn: Function, key?: string) {
         let fnName = fn.name
         if (!this.functionMap.get(fnName)) {
             this.functionMap.set(fnName, fn)
+            if (key) {
+                let fNames = this.functionNamesMapKey.get(key)
+                if (fNames) {
+                    this.functionNamesMapKey.set(key, [...fNames, fnName])
+                } else {
+                    this.functionNamesMapKey.set(key, [fnName])
+                }
+            }
             if (this.isConnected) {
                 this.setOnFunction(fn, fnName)
                 this._socket.emit("RibSendKeysToServer", [fnName])
@@ -65,10 +75,30 @@ export default class RibClient {
     /**
         * Expose an array of client side functions that can be called from the rib server instance
         * @param fns
+        * @param key
     **/
-    exposeFunctions(fns: Function[]) {
+    exposeFunctions(fns: Function[], key?: string) {
         for (let fn of fns) {
-            this.exposeFunction(fn)
+            this.exposeFunction(fn, key)
+        }
+    }
+
+    /**
+        * Conceal a client side function where it can no longer be accessed from the server
+        * @param fnName
+    **/
+    concealFunctionByName(fnName: string) {
+        this.functionMap.delete(fnName)
+        this._socket.off(fnName)
+    }
+
+    /**
+        * Conceal a client side function where it can no longer be accessed from the server
+        * @param fnNames
+    **/
+    concealFunctionsByNames(fnNames: string[]) {
+        for (let fnName of fnNames) {
+            this.concealFunctionByName(fnName)
         }
     }
 
@@ -78,8 +108,7 @@ export default class RibClient {
     **/
     concealFunction(fn: Function) {
         let fnName = fn.name
-        this.functionMap.delete(fnName)
-        this._socket.off(fnName)
+        this.concealFunctionByName(fnName)
     }
 
     /**
@@ -90,6 +119,18 @@ export default class RibClient {
         for (let fn of fns) {
             this.concealFunction(fn)
         }
+    }
+
+    /**
+        * Conceal client side functions by key to which they were exposed where they can no longer be accessed from the server
+        * @param key
+    **/
+    concealFunctionsByKey(key: string) {
+        let fns = this.functionNamesMapKey.get(key) || []
+        for (let fn of fns) {
+            this.concealFunctionByName(fn)
+        }
+        this.functionNamesMapKey.delete(key)
     }
 
     private setUpDefaultOnFunctions() {
