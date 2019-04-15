@@ -1,6 +1,6 @@
 {
   "name": "rib-client",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Client library to access the rib-server framework",
   "main": "lib/RibClient.js",
   "types": "lib/RibClient.d.ts",

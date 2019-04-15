@@ -56,3 +56,7 @@ Conceal client side functions where they can no longer be accessed from the serv
 **concealFunctionsByKey: Function**
 
 Conceal client side functions by key to which they were exposed where they can no longer be accessed from the server
+
+**close: Function**
+
+Close the Rib client instance manually

@@ -60,6 +60,10 @@ export default class RibClient {
         * @param key
     **/
     concealFunctionsByKey(key: string): void;
+    /**
+        * Close the Rib client instance manually
+    **/
+    close(): void;
     private setUpDefaultOnFunctions;
     private setOnFunction;
     private setUpOnFunctions;

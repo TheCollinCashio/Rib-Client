@@ -133,6 +133,13 @@ export default class RibClient {
         this.functionNamesMapKey.delete(key)
     }
 
+    /**
+        * Close the Rib client instance manually
+    **/
+    close() {
+        this._socket.close()
+    }
+
     private setUpDefaultOnFunctions() {
         this._socket.on("RibSendKeysToClient", (keys: string[]) => {
             this.setEmitFunctions(keys)
