@@ -21,7 +21,13 @@ export default class RibClient {
         if (isSingleton && instance) {
             returnInstance = instance
         } else {
-            this._socket = urlNamespace ? io(urlNamespace) : io("/")
+            let namespace = urlNamespace ? urlNamespace : "/"
+            let socketToken = null
+
+            if (typeof sessionStorage === "object") {
+                socketToken = sessionStorage.getItem("RibSocketToken")
+            }
+            this._socket = io(namespace, { query: { socketToken: socketToken } })
             this.setUpDefaultOnFunctions()
         }
 
@@ -152,6 +158,12 @@ export default class RibClient {
                 this._socket.emit("RibSendKeysToServer", [...this.functionMap.keys()])
                 this.isConnected = true
                 typeof this.onConnectFunction === "function" && this.onConnectFunction()
+            }
+        })
+
+        this._socket.on("RibSendSocketTokenToClient", (socketToken: string) => {
+            if (typeof sessionStorage === "object") {
+                sessionStorage.setItem("RibSocketToken", socketToken)
             }
         })
 
