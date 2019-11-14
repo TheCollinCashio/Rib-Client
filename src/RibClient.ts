@@ -58,22 +58,23 @@ export default class RibClient {
         * Expose a client side function that can be called from the rib server instance
         * @param fn
         * @param key
+        * @param fnName
     **/
-    exposeFunction(fn: Function, key?: string) {
-        let fnName = fn.name
-        if (!this.functionMap.get(fnName)) {
-            this.functionMap.set(fnName, fn)
+    exposeFunction(fn: Function, key?: string, fnName?: string) {
+        let functionName = fnName = fnName || fn.name
+        if (!this.functionMap.get(functionName)) {
+            this.functionMap.set(functionName, fn)
             if (key) {
                 let fNames = this.functionNamesMapKey.get(key)
                 if (fNames) {
-                    this.functionNamesMapKey.set(key, [...fNames, fnName])
+                    this.functionNamesMapKey.set(key, [...fNames, functionName])
                 } else {
-                    this.functionNamesMapKey.set(key, [fnName])
+                    this.functionNamesMapKey.set(key, [functionName])
                 }
             }
             if (this.isConnected) {
-                this.setOnFunction(fn, fnName)
-                this._socket.emit("RibSendKeysToServer", [fnName])
+                this.setOnFunction(fn, functionName)
+                this._socket.emit("RibSendKeysToServer", [functionName])
             }
         }
     }
@@ -82,10 +83,12 @@ export default class RibClient {
         * Expose an array of client side functions that can be called from the rib server instance
         * @param fns
         * @param key
+        * @param fnNames
     **/
-    exposeFunctions(fns: Function[], key?: string) {
-        for (let fn of fns) {
-            this.exposeFunction(fn, key)
+    exposeFunctions(fns: Function[], key?: string, fnNames? :string[]) {
+        for (let i = 0; i < fns.length; i++) {
+            let fnName = fnNames ? fnNames[i] : null;
+            this.exposeFunction(fns[i], key, fnName)
         }
     }
 

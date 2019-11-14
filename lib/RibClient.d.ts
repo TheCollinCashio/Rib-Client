@@ -27,14 +27,16 @@ export default class RibClient {
         * Expose a client side function that can be called from the rib server instance
         * @param fn
         * @param key
+        * @param fnName
     **/
-    exposeFunction(fn: Function, key?: string): void;
+    exposeFunction(fn: Function, key?: string, fnName?: string): void;
     /**
         * Expose an array of client side functions that can be called from the rib server instance
         * @param fns
         * @param key
+        * @param fnNames
     **/
-    exposeFunctions(fns: Function[], key?: string): void;
+    exposeFunctions(fns: Function[], key?: string, fnNames?: string[]): void;
     /**
         * Conceal a client side function where it can no longer be accessed from the server
         * @param fnName
