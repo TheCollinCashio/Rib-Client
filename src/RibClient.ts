@@ -87,7 +87,8 @@ export default class RibClient {
     **/
     exposeFunctions(fns: Function[], key?: string, fnNames? :string[]) {
         for (let i = 0; i < fns.length; i++) {
-            this.exposeFunction(fns[i], key, fnNames[i])
+            let fnName = fnNames ? fnNames[i] : null;
+            this.exposeFunction(fns[i], key, fnName)
         }
     }
 
