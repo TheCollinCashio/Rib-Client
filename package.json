@@ -1,6 +1,6 @@
 {
   "name": "rib-client",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Client library to access the rib-server framework",
   "main": "lib/RibClient.js",
   "types": "lib/RibClient.d.ts",
@@ -8,13 +8,8 @@
     "lib/*"
   ],
   "scripts": {
-    "pub": "tsc; webpack; npm publish",
-    "test": "tsc; node test/index.js",
-    "testHtml": "tsc; webpack;"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TheCollinCashio/Rib-Client.git"
+    "pub": "npm run build; npm version patch; npm publish",
+    "build": "tsc; webpack;"
   },
   "keywords": [
     "frontend",
@@ -35,7 +30,7 @@
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
+    "@babel/core": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
     "@types/socket.io-client": "^1.4.32",
     "babel-loader": "^8.0.6",

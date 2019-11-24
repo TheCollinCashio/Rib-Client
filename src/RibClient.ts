@@ -1,14 +1,15 @@
 import * as io from "socket.io-client"
-let instance = null
+let instance: any = null
 
 export default class RibClient {
+    //@ts-ignore
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private functionNamesMapKey = new Map<string, string[]>()
     private isConnected = false
     private hasConnected = false
-    private onConnectFunction: Function
-    private disconnFunction: Function
+    private onConnectFunction: Function = () => {}
+    private disconnFunction: Function = () => {}
 
     /**
         * Create an instance of RibClient
@@ -60,7 +61,8 @@ export default class RibClient {
         * @param key
         * @param fnName
     **/
-    exposeFunction(fn: Function, key?: string, fnName?: string) {
+   //@ts-ignore
+    exposeFunction(fn: Function, key?: string, fnName?: string | null) {
         let functionName = fnName = fnName || fn.name
         if (!this.functionMap.get(functionName)) {
             this.functionMap.set(functionName, fn)
@@ -158,6 +160,7 @@ export default class RibClient {
                     this.setUpOnFunctions()
                     this.hasConnected = true
                 }
+                //@ts-ignore
                 this._socket.emit("RibSendKeysToServer", [...this.functionMap.keys()])
                 this.isConnected = true
                 typeof this.onConnectFunction === "function" && this.onConnectFunction()
@@ -177,6 +180,7 @@ export default class RibClient {
     }
 
     private setOnFunction(fn: Function, fnName: string) {
+        //@ts-ignore
         this._socket.on(fnName, (...args) => {
             fn(...args)
         })
@@ -189,7 +193,9 @@ export default class RibClient {
     }
 
     private setEmitFunction(key: string) {
+        //@ts-ignore
         if (!this[key]) {
+            //@ts-ignore
             this[key] = (...args) => {
                 return new Promise((resolve, reject) => {
                     try {
