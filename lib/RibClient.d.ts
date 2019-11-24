@@ -1,4 +1,3 @@
-/// <reference types="socket.io-client" />
 export default class RibClient {
     _socket: SocketIOClient.Socket;
     private functionMap;
@@ -29,7 +28,7 @@ export default class RibClient {
         * @param key
         * @param fnName
     **/
-    exposeFunction(fn: Function, key?: string, fnName?: string): void;
+    exposeFunction(fn: Function, key?: string, fnName?: string | null): void;
     /**
         * Expose an array of client side functions that can be called from the rib server instance
         * @param fns
