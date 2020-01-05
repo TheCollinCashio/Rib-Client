@@ -1,5 +1,5 @@
-export default class RibClient<F> {
-    serverFunctions: F;
+export default class RibClient<F = {}> {
+    serverFunctions: Readonly<F>;
     _socket: SocketIOClient.Socket;
     private functionMap;
     private functionNamesMapKey;

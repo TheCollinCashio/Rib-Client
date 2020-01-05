@@ -1,9 +1,9 @@
 import * as io from "socket.io-client"
 let instance: any = null
 
-export default class RibClient<F> {
+export default class RibClient<F = {}> {
     //@ts-ignore
-    public serverFunctions: F = {}
+    public serverFunctions: Readonly<F>
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private functionNamesMapKey = new Map<string, string[]>()
