@@ -30,11 +30,11 @@
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
+    "@babel/core": "^7.7.7",
     "@babel/polyfill": "^7.7.0",
     "@types/socket.io-client": "^1.4.32",
     "babel-loader": "^8.0.6",
-    "webpack": "^4.41.2",
+    "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }
 }
