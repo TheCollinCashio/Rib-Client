@@ -3,7 +3,7 @@ let instance: any = null
 
 export default class RibClient<F = {}> {
     //@ts-ignore
-    public serverFunctions: Readonly<F>
+    public serverFunctions: Readonly<F> = {}
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private functionNamesMapKey = new Map<string, string[]>()
