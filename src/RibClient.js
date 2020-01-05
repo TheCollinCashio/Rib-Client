@@ -9,6 +9,8 @@ class RibClient {
         * @param isSingleton
     **/
     constructor(urlNamespace, isSingleton = true) {
+        //@ts-ignore
+        this.serverFunctions = {};
         this.functionMap = new Map();
         this.functionNamesMapKey = new Map();
         this.isConnected = false;
@@ -194,4 +196,3 @@ class RibClient {
     }
 }
 exports.default = RibClient;
-//# sourceMappingURL=RibClient.js.map

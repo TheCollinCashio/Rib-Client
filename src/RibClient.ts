@@ -1,8 +1,9 @@
 import * as io from "socket.io-client"
 let instance: any = null
 
-export default class RibClient {
+export default class RibClient<F = {}> {
     //@ts-ignore
+    public serverFunctions: Readonly<F>
     public _socket: SocketIOClient.Socket
     private functionMap = new Map<string, Function>()
     private functionNamesMapKey = new Map<string, string[]>()
@@ -194,9 +195,9 @@ export default class RibClient {
 
     private setEmitFunction(key: string) {
         //@ts-ignore
-        if (!this[key]) {
+        if (!this.serverFunctions[key]) {
             //@ts-ignore
-            this[key] = (...args) => {
+            this.serverFunctions[key] = (...args) => {
                 return new Promise((resolve, reject) => {
                     try {
                         this._socket.emit(key, ...args, resolve)

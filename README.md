@@ -9,7 +9,7 @@ let RibClient = require("rib-client").default // or import using the CDN https:/
 let myRib = new RibClient()
 
 myRib.onConnect(async () => {
-    myRib.logMessage("Runs the logMessage function server side 👨🏻‍💻")
+    myRib.serverFunctions.logMessage("Runs the logMessage function server side 👨🏻‍💻")
     console.log(await myRib.add(1, 2))
 })
 
